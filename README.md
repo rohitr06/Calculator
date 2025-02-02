@@ -1,7 +1,7 @@
 ### **React Calculator**  
 A simple, functional calculator built using **React.js** with basic arithmetic operations.  
 
-![Calculator Preview](https://via.placeholder.com/800x400?text=React+Calculator)  
+![Calculator Preview](https://i.postimg.cc/YS0st8TP/image.png)  
 
 ---
 
