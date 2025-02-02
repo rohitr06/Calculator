@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 
 const Calculator = () => {
 
@@ -34,15 +34,14 @@ const Calculator = () => {
                 setInput('0');
                 setOutput('0');
             }
-            else if(value==="⌫"){
-                setInput((curr)=>(
-                    curr.length>1 ? curr.slice(0,-1):'0'
-                ));
-                
+            else if (value==='backspace'){
+                setInput((curr)=>
+                    curr>0?curr.slice(0,-1):'0');
             }
-            else if(input==""&&(value==='/' || value==='*' ||value==='+' ||value==='-')){
-                alert("Enter valid input !");
-            }
+           
+            // else if((value==='/' || value==='*' ||value==='+' ||value==='-')){
+            //     alert("Enter valid input !");
+            // }
             else if (input==="0"){
                 setInput(value);
                 
@@ -53,14 +52,43 @@ const Calculator = () => {
 
            
 
-    }
+    
+
+    };
+
+    useEffect(()=>{
+        const handleKeyPress =(event)=>{
+            const {key}=event;
+            if(keys.includes(key)|| key==='Enter'|| key==='Backspace'){
+                event.preventDefault();
+                if(key==='Enter'){
+                    handleClick('=');
+                }
+                else if (key==='Backspace'){
+                    handleClick('backspace');
+                }
+                else{
+                    handleClick(key);
+                }
+
+            }
+
+        }
+
+        window.addEventListener('keydown',handleKeyPress);
+
+        return()=>{
+            window.removeEventListener('keydown',handleKeyPress);
+        }
+
+    })
 
   return (
     
 <div className="bg-white rounded-lg w-80 p-3 shadow-2xl border-black">
     {/*display*/}
     <div className="bg-black p-2 text-right rounded-lg mb-4  h-20">
-        <div className="text-red-500 text-2xl">{input}</div>
+        <div className="text-red-500 text-2xl ">{input}</div>
         {/*change to input*/} 
         <div className="text-red-900 text-3xl font-bold">{output}</div>
         {/*change to output*/} 
