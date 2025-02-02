@@ -6,32 +6,50 @@ const Calculator = () => {
     const [output, setOutput] = useState('0');
 
     const keys=[
+        
         '7', '8', '9', '/',
         '4', '5', '6', '*',
         '1', '2', '3', '-',
-        'C', '0', '=', '+',
+        'AC', '0', '=', '+',
+        
         ];
 
     const handleClick =(value)=>{
             if(value === '='){
                 try {
-                    setOutput(eval(input).toString());
+
+                    let result=eval(input).toString();
+                   
+                    if(result.length>10){
+                        result=result.substring(0,10);
+                    }
+                    setOutput(result);
+                    
                 } catch (error) {
                     setOutput("Error");
                 }
             }
 
-            else if (value=== 'C'){
+            else if (value=== 'AC'){
                 setInput('0');
                 setOutput('0');
             }
-            else if(value==='/' || value==='*' ||value==='+' ||value==='-'){
+            else if(value==="⌫"){
+                setInput((curr)=>(
+                    curr.length>1 ? curr.slice(0,-1):'0'
+                ));
+                
+            }
+            else if(input==""&&(value==='/' || value==='*' ||value==='+' ||value==='-')){
                 alert("Enter valid input !");
             }
-            else{
-                setInput((curr)=>curr+value);
+            else if (input==="0"){
+                setInput(value);
+                
 
             }
+            else{
+                setInput((curr)=>curr+value);}
 
            
 
@@ -41,7 +59,7 @@ const Calculator = () => {
     
 <div className="bg-white rounded-lg w-80 p-3 shadow-2xl border-black">
     {/*display*/}
-    <div className="bg-black p-2 text-right rounded-lg mb-4 ">
+    <div className="bg-black p-2 text-right rounded-lg mb-4  h-20">
         <div className="text-red-500 text-2xl">{input}</div>
         {/*change to input*/} 
         <div className="text-red-900 text-3xl font-bold">{output}</div>
@@ -50,6 +68,7 @@ const Calculator = () => {
     {/* buttons*/}
 
     <div className="grid grid-cols-4 gap-4">
+           
     {keys.map((btn) => (
     <button key={btn}
     onClick={()=> handleClick(btn)}
